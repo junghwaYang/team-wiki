@@ -8,14 +8,6 @@
 
   // Category Icon & Theme Mapping
   const CATEGORY_THEMES = {
-    people: {
-      icon: '👥',
-      colorVar: 'cat-people'
-    },
-    'expense-purchase': {
-      icon: '💳',
-      colorVar: 'cat-expense'
-    },
     planning: {
       icon: '📝',
       colorVar: 'cat-planning'
@@ -27,6 +19,14 @@
     engineering: {
       icon: '💻',
       colorVar: 'cat-engineering'
+    },
+    people: {
+      icon: '👥',
+      colorVar: 'cat-people'
+    },
+    'expense-purchase': {
+      icon: '💳',
+      colorVar: 'cat-expense'
     },
     'project-collaboration': {
       icon: '🚀',
@@ -52,7 +52,8 @@
   const globalUpdatedAt = document.getElementById('globalUpdatedAt');
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
-  const categoryTabs = document.getElementById('categoryTabs');
+  const sidebarNav = document.getElementById('sidebarNav');
+  const totalCategoryCount = document.getElementById('totalCategoryCount');
   const wikiSection = document.getElementById('wikiSection');
   const searchStats = document.getElementById('searchStats');
   const statsText = document.getElementById('statsText');
@@ -73,7 +74,7 @@
       }
       wikiData = await response.json();
       renderNoticeAndMeta();
-      renderCategoryTabs();
+      renderSidebarNav();
       renderContent();
       setupEventListeners();
     } catch (error) {
@@ -111,16 +112,24 @@
     }
   }
 
-  // Render Category Quick Tabs
-  function renderCategoryTabs() {
+  // Render Sidebar Navigation
+  function renderSidebarNav() {
     if (!wikiData || !wikiData.categories) return;
 
+    const totalCategories = wikiData.categories.length;
     const totalCount = wikiData.categories.reduce((acc, cat) => acc + (cat.items ? cat.items.length : 0), 0);
 
+    if (totalCategoryCount) {
+      totalCategoryCount.textContent = `${totalCategories}개`;
+    }
+
     let html = `
-      <button type="button" class="tab-chip ${selectedCategory === 'all' ? 'active' : ''}" data-category="all">
-        <span>전체 보기</span>
-        <span class="tab-count">${totalCount}</span>
+      <button type="button" class="sidebar-nav-item ${selectedCategory === 'all' ? 'active' : ''}" data-category="all" aria-current="${selectedCategory === 'all' ? 'page' : 'false'}">
+        <span class="nav-label">
+          <span class="nav-icon">🌐</span>
+          <span>전체 보기</span>
+        </span>
+        <span class="nav-count">${totalCount}</span>
       </button>
     `;
 
@@ -130,14 +139,17 @@
       const isActive = selectedCategory === category.id;
 
       html += `
-        <button type="button" class="tab-chip ${isActive ? 'active' : ''}" data-category="${escapeHtml(category.id)}">
-          <span>${theme.icon} ${escapeHtml(category.name)}</span>
-          <span class="tab-count">${count}</span>
+        <button type="button" class="sidebar-nav-item ${isActive ? 'active' : ''}" data-category="${escapeHtml(category.id)}" aria-current="${isActive ? 'page' : 'false'}">
+          <span class="nav-label">
+            <span class="nav-icon">${theme.icon}</span>
+            <span>${escapeHtml(category.name)}</span>
+          </span>
+          <span class="nav-count">${count}</span>
         </button>
       `;
     });
 
-    categoryTabs.innerHTML = html;
+    sidebarNav.innerHTML = html;
   }
 
   // Filter Data based on search query & selected category
@@ -157,7 +169,7 @@
 
         const filteredItems = (category.items || []).filter(item => {
           if (!query) return true;
-          if (categoryNameMatches) return true; // 카테고리명이 일치하면 하위 항목 모두 포함
+          if (categoryNameMatches) return true;
 
           const titleMatches = (item.title || '').toLowerCase().includes(query);
           const descMatches = (item.description || '').toLowerCase().includes(query);
@@ -252,7 +264,7 @@
         <article class="wiki-category-group" id="cat-${escapeHtml(category.id)}">
           <header class="category-header">
             <div class="category-header-title">
-              <div class="category-icon-wrapper" aria-hidden="true">${theme.icon}</div>
+              <span class="category-icon-wrapper" aria-hidden="true">${theme.icon}</span>
               <h2 class="category-title">${highlightText(category.name, query)}</h2>
               <span class="category-badge-count">${category.items.length}</span>
             </div>
@@ -265,7 +277,7 @@
                   <div class="card-top">
                     <h3 class="card-title">${highlightText(item.title, query)}</h3>
                     <span class="card-link-action" aria-hidden="true">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 17 17 7"></path>
                         <path d="M7 7h10v10"></path>
                       </svg>
@@ -312,9 +324,9 @@
       searchInput.focus();
     });
 
-    // Category Tabs click
-    categoryTabs.addEventListener('click', (e) => {
-      const btn = e.target.closest('.tab-chip');
+    // Sidebar Navigation click handler
+    sidebarNav.addEventListener('click', (e) => {
+      const btn = e.target.closest('.sidebar-nav-item');
       if (!btn) return;
 
       const cat = btn.dataset.category;
@@ -322,11 +334,20 @@
 
       selectedCategory = cat;
 
-      // Update active tab class
-      categoryTabs.querySelectorAll('.tab-chip').forEach(t => t.classList.remove('active'));
+      // Update active state in sidebar
+      sidebarNav.querySelectorAll('.sidebar-nav-item').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-current', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-current', 'page');
 
       renderContent();
+
+      // In mobile view, scroll to main content smoothly
+      if (window.innerWidth <= 960) {
+        document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
 
     // Reset filters
@@ -334,7 +355,7 @@
       searchInput.value = '';
       currentSearchQuery = '';
       selectedCategory = 'all';
-      renderCategoryTabs();
+      renderSidebarNav();
       renderContent();
     };
 

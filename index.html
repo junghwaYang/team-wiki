@@ -19,9 +19,9 @@
     </div>
   </aside>
 
-  <!-- 메인 헤더 & 히어로 섹션 -->
+  <!-- 메인 상단 헤더 -->
   <header class="header">
-    <div class="container">
+    <div class="container header-container">
       <div class="brand-area">
         <div class="logo-mark">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -33,47 +33,69 @@
         </div>
         <div class="brand-text">
           <h1 class="service-title">팀 사내 위키</h1>
-          <p class="service-subtitle">팀원이 자주 사용하는 업무 도구와 문서 링크를 한곳에서 빠르게 찾으세요.</p>
+          <p class="service-subtitle">자주 사용하는 업무 도구와 문서를 빠르게 찾아보세요.</p>
         </div>
       </div>
 
-      <!-- 검색 바 -->
-      <div class="search-container">
-        <div class="search-box">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
+      <!-- 상단 글로벌 검색 바 -->
+      <div class="search-box">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input 
+          type="search" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="링크 이름, 설명, 카테고리, 담당자로 검색 (단축키: / 또는 Cmd+K)"
+          aria-label="사내 위키 검색"
+          autocomplete="off"
+        >
+        <button type="button" id="clearSearchBtn" class="clear-btn" aria-label="검색어 지우기" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
           </svg>
-          <input 
-            type="search" 
-            id="searchInput" 
-            class="search-input" 
-            placeholder="링크 이름, 설명, 카테고리로 검색 (단축키: / 또는 Cmd+K)"
-            aria-label="사내 위키 검색"
-            autocomplete="off"
-          >
-          <button type="button" id="clearSearchBtn" class="clear-btn" aria-label="검색어 지우기" hidden>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
-          </button>
-          <kbd class="search-kbd" id="searchKbd">⌘K</kbd>
-        </div>
-
-        <!-- 카테고리 퀵 필터 / 점프 바 -->
-        <nav class="category-tabs" id="categoryTabs" aria-label="카테고리 빠른 이동">
-          <button class="tab-chip active" data-category="all">전체 보기</button>
-          <!-- JS로 동적 생성 -->
-        </nav>
+        </button>
+        <kbd class="search-kbd" id="searchKbd">⌘K</kbd>
       </div>
     </div>
   </header>
 
-  <!-- 메인 컨텐츠 영역 -->
-  <main class="main-content">
-    <div class="container">
-      <!-- 검색 통계 바 -->
+  <!-- 2열 사이드바 + 메인 레이아웃 -->
+  <div class="container app-layout">
+    <!-- 좌측 카테고리 사이드바 -->
+    <aside class="sidebar" id="sidebar" aria-label="카테고리 네비게이션">
+      <div class="sidebar-sticky">
+        <div class="sidebar-header">
+          <div class="sidebar-header-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+              <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+            </svg>
+            <span>카테고리</span>
+          </div>
+          <span class="sidebar-category-count" id="totalCategoryCount">0</span>
+        </div>
+
+        <nav class="sidebar-nav" id="sidebarNav">
+          <!-- JS로 동적 생성 -->
+        </nav>
+
+        <!-- 사이드바 하단 미니 도움말 -->
+        <div class="sidebar-footer-card">
+          <div class="sidebar-card-badge">HELP</div>
+          <p class="sidebar-card-text">찾는 문서가 없으신가요?</p>
+          <a href="#supportSection" class="sidebar-card-link">운영 담당 문의 &rarr;</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 우측 메인 컨텐츠 영역 -->
+    <main class="main-content">
+      <!-- 검색 필터 상태 바 -->
       <div class="search-stats" id="searchStats" hidden>
         <span class="stats-text" id="statsText"></span>
         <button type="button" id="resetFilterBtn" class="btn-text">전체 목록 보기</button>
@@ -100,8 +122,8 @@
           <a href="#supportSection" class="btn btn-secondary">운영 담당자에게 문의하기</a>
         </div>
       </section>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <!-- 하단 추가 문의 및 서포트 안내 섹션 -->
   <footer class="footer" id="supportSection">
