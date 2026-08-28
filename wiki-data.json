@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "notice": "실습용 예시 데이터입니다. 실제 사내 정보와 비공개 주소를 입력하지 마세요.",
+  "updatedAt": "2026-08-28",
+  "support": {
+    "message": "찾는 정보가 없거나 링크 접근에 문제가 있으면 운영 담당자에게 문의하세요.",
+    "contact": "운영 담당"
+  },
+  "categories": [
+    {
+      "id": "people",
+      "name": "인사와 근태",
+      "items": [
+        {
+          "id": "leave-request",
+          "title": "휴가 신청",
+          "description": "휴가를 신청할 때 사용하는 문서입니다.",
+          "url": "https://example.com/leave",
+          "contact": "인사 담당",
+          "updatedAt": "2026-08-28"
+        },
+        {
+          "id": "attendance-guide",
+          "title": "근태 기준",
+          "description": "출퇴근과 근무 기준을 확인할 때 사용하는 문서입니다.",
+          "url": "https://example.com/attendance",
+          "contact": "인사 담당",
+          "updatedAt": "2026-08-28"
+        }
+      ]
+    },
+    {
+      "id": "expense-purchase",
+      "name": "경비와 구매",
+      "items": [
+        {
+          "id": "expense-report",
+          "title": "경비 정산",
+          "description": "업무 비용을 정산할 때 사용하는 문서입니다.",
+          "url": "https://example.com/expense",
+          "contact": "재무 담당",
+          "updatedAt": "2026-08-28"
+        },
+        {
+          "id": "purchase-request",
+          "title": "구매 요청",
+          "description": "비품과 서비스를 구매할 때 사용하는 문서입니다.",
+          "url": "https://example.com/purchase",
+          "contact": "운영 담당",
+          "updatedAt": "2026-08-28"
+        }
+      ]
+    },
+    {
+      "id": "project-collaboration",
+      "name": "프로젝트와 협업",
+      "items": [
+        {
+          "id": "project-board",
+          "title": "프로젝트 보드",
+          "description": "진행 중인 업무 상태를 확인할 때 사용하는 페이지입니다.",
+          "url": "https://example.com/projects",
+          "contact": "프로젝트 담당",
+          "updatedAt": "2026-08-28"
+        },
+        {
+          "id": "meeting-notes",
+          "title": "회의록 양식",
+          "description": "회의 내용을 같은 형식으로 기록할 때 사용하는 문서입니다.",
+          "url": "https://example.com/meeting-notes",
+          "contact": "운영 담당",
+          "updatedAt": "2026-08-28"
+        }
+      ]
+    },
+    {
+      "id": "brand-assets",
+      "name": "브랜드와 자료",
+      "items": [
+        {
+          "id": "brand-guide",
+          "title": "브랜드 가이드",
+          "description": "색상, 글꼴, 문서 표현 기준을 확인할 때 사용하는 문서입니다.",
+          "url": "https://example.com/brand-guide",
+          "contact": "디자인 담당",
+          "updatedAt": "2026-08-28"
+        },
+        {
+          "id": "brand-files",
+          "title": "로고와 이미지 자료",
+          "description": "공식 이미지 파일이 필요할 때 사용하는 자료입니다.",
+          "url": "https://example.com/brand-assets",
+          "contact": "디자인 담당",
+          "updatedAt": "2026-08-28"
+        }
+      ]
+    },
+    {
+      "id": "customer-operations",
+      "name": "고객 응대와 운영",
+      "items": [
+        {
+          "id": "customer-guide",
+          "title": "고객 응대 가이드",
+          "description": "고객 문의에 답변할 때 기준을 확인하는 문서입니다.",
+          "url": "https://example.com/customer-guide",
+          "contact": "고객 지원 담당",
+          "updatedAt": "2026-08-28"
+        },
+        {
+          "id": "incident-checklist",
+          "title": "문제 대응 체크리스트",
+          "description": "서비스 문제가 발생했을 때 확인하는 문서입니다.",
+          "url": "https://example.com/incident-checklist",
+          "contact": "운영 담당",
+          "updatedAt": "2026-08-28"
+        }
+      ]
+    }
+  ]
+}
