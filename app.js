@@ -16,12 +16,24 @@
       icon: '💳',
       colorVar: 'cat-expense'
     },
+    planning: {
+      icon: '📝',
+      colorVar: 'cat-planning'
+    },
+    design: {
+      icon: '🎨',
+      colorVar: 'cat-design'
+    },
+    engineering: {
+      icon: '💻',
+      colorVar: 'cat-engineering'
+    },
     'project-collaboration': {
       icon: '🚀',
       colorVar: 'cat-project'
     },
     'brand-assets': {
-      icon: '🎨',
+      icon: '✨',
       colorVar: 'cat-brand'
     },
     'customer-operations': {
