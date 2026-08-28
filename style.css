@@ -1049,11 +1049,24 @@ mark {
     display: inline-flex;
   }
 
+  /* 본문 컨텐츠 위아래 여백 추가 */
   .app-layout {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
-    padding-top: 1.25rem;
-    padding-bottom: 2.5rem;
+    gap: 1.5rem;
+    padding-top: 2.25rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .main-content {
+    padding-top: 0.5rem;
+  }
+
+  .wiki-category-group {
+    margin-bottom: 3.25rem;
+  }
+
+  .category-header {
+    margin-bottom: 1.25rem;
   }
 
   /* 모바일 슬라이드 드로어로 변환 */
@@ -1120,11 +1133,11 @@ mark {
 /* 스마트폰 (640px 이하) */
 @media (max-width: 640px) {
   .container {
-    padding: 0 0.875rem;
+    padding: 0 1rem;
   }
 
   .header {
-    padding: 0.875rem 0;
+    padding: 1rem 0;
   }
 
   .service-title {
@@ -1179,13 +1192,32 @@ mark {
     font-size: 0.75rem;
   }
 
+  /* 본문 컨텐츠 위아래 여백 강화 */
+  .app-layout {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .search-stats {
+    margin-bottom: 1.75rem;
+  }
+
+  .wiki-category-group {
+    margin-bottom: 2.75rem;
+  }
+
+  .category-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
   .cards-grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.875rem;
   }
 
   .wiki-card {
-    padding: 1rem;
+    padding: 1.1rem;
   }
 
   .category-title {
@@ -1195,8 +1227,9 @@ mark {
   .support-card {
     flex-direction: column;
     align-items: flex-start;
-    padding: 1rem;
+    padding: 1.25rem 1rem;
     gap: 0.875rem;
+    margin-bottom: 2rem;
   }
 
   .support-contact-box {
@@ -1206,6 +1239,10 @@ mark {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0.75rem;
+  }
+
+  .footer {
+    padding: 3rem 0 2.5rem;
   }
 
   .footer-meta {
