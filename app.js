@@ -1,43 +1,44 @@
 /**
  * Team Wiki - Vanilla JavaScript Implementation
  * Data source: wiki-data.json
+ * Icons: Lucide Icons
  */
 
 (function () {
   'use strict';
 
-  // Category Icon & Theme Mapping
+  // Category Icon (Lucide) & Theme Mapping
   const CATEGORY_THEMES = {
     planning: {
-      icon: '📝',
+      icon: 'file-text',
       colorVar: 'cat-planning'
     },
     design: {
-      icon: '🎨',
+      icon: 'palette',
       colorVar: 'cat-design'
     },
     engineering: {
-      icon: '💻',
+      icon: 'code-2',
       colorVar: 'cat-engineering'
     },
     people: {
-      icon: '👥',
+      icon: 'users',
       colorVar: 'cat-people'
     },
     'expense-purchase': {
-      icon: '💳',
+      icon: 'credit-card',
       colorVar: 'cat-expense'
     },
     'project-collaboration': {
-      icon: '🚀',
+      icon: 'folder-kanban',
       colorVar: 'cat-project'
     },
     'brand-assets': {
-      icon: '✨',
+      icon: 'sparkles',
       colorVar: 'cat-brand'
     },
     'customer-operations': {
-      icon: '🎧',
+      icon: 'headset',
       colorVar: 'cat-customer'
     }
   };
@@ -65,6 +66,13 @@
   const supportContact = document.getElementById('supportContact');
   const dataVersion = document.getElementById('dataVersion');
 
+  // Refresh Lucide Icons
+  function refreshIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
   // Initialize
   async function init() {
     try {
@@ -77,6 +85,7 @@
       renderSidebarNav();
       renderContent();
       setupEventListeners();
+      refreshIcons();
     } catch (error) {
       console.error('Failed to load wiki-data.json:', error);
       noticeText.textContent = '위키 데이터를 불러오는데 실패했습니다. 페이지를 새로고침하거나 관리자에게 문의하세요.';
@@ -86,6 +95,7 @@
           <p class="empty-desc">wiki-data.json 파일을 찾을 수 없거나 파일 형식이 잘못되었습니다.</p>
         </div>
       `;
+      refreshIcons();
     }
   }
 
@@ -126,7 +136,7 @@
     let html = `
       <button type="button" class="sidebar-nav-item ${selectedCategory === 'all' ? 'active' : ''}" data-category="all" aria-current="${selectedCategory === 'all' ? 'page' : 'false'}">
         <span class="nav-label">
-          <span class="nav-icon">🌐</span>
+          <i data-lucide="layers" class="nav-icon"></i>
           <span>전체 보기</span>
         </span>
         <span class="nav-count">${totalCount}</span>
@@ -134,14 +144,14 @@
     `;
 
     wikiData.categories.forEach(category => {
-      const theme = CATEGORY_THEMES[category.id] || { icon: '📁' };
+      const theme = CATEGORY_THEMES[category.id] || { icon: 'folder' };
       const count = category.items ? category.items.length : 0;
       const isActive = selectedCategory === category.id;
 
       html += `
         <button type="button" class="sidebar-nav-item ${isActive ? 'active' : ''}" data-category="${escapeHtml(category.id)}" aria-current="${isActive ? 'page' : 'false'}">
           <span class="nav-label">
-            <span class="nav-icon">${theme.icon}</span>
+            <i data-lucide="${theme.icon}" class="nav-icon"></i>
             <span>${escapeHtml(category.name)}</span>
           </span>
           <span class="nav-count">${count}</span>
@@ -250,6 +260,7 @@
       } else {
         emptyKeywordText.textContent = '선택한 카테고리에 표시할 항목이 없습니다.';
       }
+      refreshIcons();
       return;
     }
 
@@ -258,13 +269,15 @@
     // Render Categories & Cards Grid
     let html = '';
     categories.forEach(category => {
-      const theme = CATEGORY_THEMES[category.id] || { icon: '📁' };
+      const theme = CATEGORY_THEMES[category.id] || { icon: 'folder' };
 
       html += `
         <article class="wiki-category-group" id="cat-${escapeHtml(category.id)}">
           <header class="category-header">
             <div class="category-header-title">
-              <span class="category-icon-wrapper" aria-hidden="true">${theme.icon}</span>
+              <span class="category-icon-wrapper">
+                <i data-lucide="${theme.icon}" class="category-icon"></i>
+              </span>
               <h2 class="category-title">${highlightText(category.name, query)}</h2>
               <span class="category-badge-count">${category.items.length}</span>
             </div>
@@ -277,10 +290,7 @@
                   <div class="card-top">
                     <h3 class="card-title">${highlightText(item.title, query)}</h3>
                     <span class="card-link-action" aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 17 17 7"></path>
-                        <path d="M7 7h10v10"></path>
-                      </svg>
+                      <i data-lucide="arrow-up-right"></i>
                     </span>
                   </div>
                   <p class="card-description">${highlightText(item.description, query)}</p>
@@ -288,10 +298,7 @@
 
                 <div class="card-meta">
                   <span class="contact-pill">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+                    <i data-lucide="user" class="meta-icon"></i>
                     ${highlightText(item.contact, query)}
                   </span>
                   <time class="card-date" datetime="${escapeHtml(item.updatedAt)}">
@@ -306,6 +313,7 @@
     });
 
     wikiSection.innerHTML = html;
+    refreshIcons();
   }
 
   // Setup Event Listeners
@@ -357,6 +365,7 @@
       selectedCategory = 'all';
       renderSidebarNav();
       renderContent();
+      refreshIcons();
     };
 
     resetFilterBtn.addEventListener('click', resetAllFilters);

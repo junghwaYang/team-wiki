@@ -125,6 +125,13 @@ button, input {
   padding: 0 1.5rem;
 }
 
+/* Lucide Icon Base Styling */
+svg.lucide, i[data-lucide] {
+  display: inline-flex;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    Notice Banner
    ========================================================================== */
@@ -148,9 +155,17 @@ button, input {
   color: #ffffff;
   font-weight: 700;
   font-size: 0.75rem;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.55rem;
   border-radius: var(--radius-full);
   letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-icon {
+  width: 13px;
+  height: 13px;
 }
 
 .notice-text {
@@ -193,8 +208,8 @@ button, input {
 }
 
 .logo-mark {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #ffffff;
   border-radius: var(--radius-md);
@@ -203,6 +218,11 @@ button, input {
   justify-content: center;
   box-shadow: 0 4px 10px -2px rgb(37 99 235 / 0.3);
   flex-shrink: 0;
+}
+
+.logo-mark svg.lucide {
+  width: 22px;
+  height: 22px;
 }
 
 .service-title {
@@ -232,6 +252,8 @@ button, input {
 .search-icon {
   position: absolute;
   left: 1.15rem;
+  width: 18px;
+  height: 18px;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -273,6 +295,11 @@ button, input {
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast);
+}
+
+.clear-btn svg.lucide {
+  width: 16px;
+  height: 16px;
 }
 
 .clear-btn:hover {
@@ -340,6 +367,11 @@ button, input {
   color: var(--text-muted);
 }
 
+.header-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .sidebar-category-count {
   font-size: 0.75rem;
   font-weight: 700;
@@ -395,8 +427,13 @@ button, input {
 }
 
 .nav-icon {
-  font-size: 1.1rem;
-  line-height: 1;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+}
+
+.sidebar-nav-item.active .nav-icon {
+  color: var(--accent-primary);
 }
 
 .nav-count {
@@ -425,11 +462,18 @@ button, input {
 }
 
 .sidebar-card-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   font-size: 0.65rem;
   font-weight: 800;
   color: var(--accent-primary);
   letter-spacing: 0.05em;
+}
+
+.help-mini-icon {
+  width: 12px;
+  height: 12px;
 }
 
 .sidebar-card-text {
@@ -510,8 +554,20 @@ button, input {
 }
 
 .category-icon-wrapper {
-  font-size: 1.25rem;
-  line-height: 1;
+  width: 32px;
+  height: 32px;
+  background-color: var(--bg-surface-hover);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+}
+
+.category-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .category-title {
@@ -592,6 +648,11 @@ button, input {
   flex-shrink: 0;
 }
 
+.card-link-action svg.lucide {
+  width: 15px;
+  height: 15px;
+}
+
 .wiki-card:hover .card-link-action {
   background-color: var(--accent-primary);
   color: #ffffff;
@@ -626,6 +687,11 @@ button, input {
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-sm);
   border: 1px solid #e2e8f0;
+}
+
+.meta-icon {
+  width: 13px;
+  height: 13px;
 }
 
 .card-date {
@@ -666,6 +732,11 @@ mark {
   margin-bottom: 1rem;
 }
 
+.empty-icon-wrapper svg.lucide {
+  width: 32px;
+  height: 32px;
+}
+
 .empty-title {
   font-size: 1.15rem;
   font-weight: 700;
@@ -691,6 +762,7 @@ mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   padding: 0.55rem 1.15rem;
   border-radius: var(--radius-md);
   font-size: 0.875rem;
@@ -698,6 +770,11 @@ mark {
   cursor: pointer;
   transition: all var(--transition-fast);
   border: none;
+}
+
+.btn-icon {
+  width: 15px;
+  height: 15px;
 }
 
 .btn-primary {
@@ -751,6 +828,11 @@ mark {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.support-icon svg.lucide {
+  width: 24px;
+  height: 24px;
 }
 
 .support-content {
@@ -869,6 +951,10 @@ mark {
   .sidebar-nav-item.active {
     background-color: var(--text-primary);
     border-color: var(--text-primary);
+    color: #ffffff;
+  }
+
+  .sidebar-nav-item.active .nav-icon {
     color: #ffffff;
   }
 

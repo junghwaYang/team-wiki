@@ -7,13 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- 상단 공지 배너 -->
   <aside class="notice-banner" id="noticeBanner" role="alert" aria-live="polite">
     <div class="container banner-inner">
-      <span class="badge notice-badge">안내</span>
+      <span class="badge notice-badge">
+        <i data-lucide="info" class="badge-icon"></i>
+        <span>안내</span>
+      </span>
       <p id="noticeText" class="notice-text">데이터를 불러오는 중입니다...</p>
       <span class="last-updated" id="globalUpdatedAt"></span>
     </div>
@@ -24,12 +29,7 @@
     <div class="container header-container">
       <div class="brand-area">
         <div class="logo-mark">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
-            <path d="M6 6h10"></path>
-            <path d="M6 10h10"></path>
-            <path d="M6 14h6"></path>
-          </svg>
+          <i data-lucide="book-open-check"></i>
         </div>
         <div class="brand-text">
           <h1 class="service-title">팀 사내 위키</h1>
@@ -39,10 +39,7 @@
 
       <!-- 상단 글로벌 검색 바 -->
       <div class="search-box">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
+        <i data-lucide="search" class="search-icon"></i>
         <input 
           type="search" 
           id="searchInput" 
@@ -52,10 +49,7 @@
           autocomplete="off"
         >
         <button type="button" id="clearSearchBtn" class="clear-btn" aria-label="검색어 지우기" hidden>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"></path>
-            <path d="m6 6 12 12"></path>
-          </svg>
+          <i data-lucide="x"></i>
         </button>
         <kbd class="search-kbd" id="searchKbd">⌘K</kbd>
       </div>
@@ -69,12 +63,7 @@
       <div class="sidebar-sticky">
         <div class="sidebar-header">
           <div class="sidebar-header-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="7" height="7" x="3" y="3" rx="1"></rect>
-              <rect width="7" height="7" x="14" y="3" rx="1"></rect>
-              <rect width="7" height="7" x="14" y="14" rx="1"></rect>
-              <rect width="7" height="7" x="3" y="14" rx="1"></rect>
-            </svg>
+            <i data-lucide="layout-grid" class="header-icon"></i>
             <span>카테고리</span>
           </div>
           <span class="sidebar-category-count" id="totalCategoryCount">0</span>
@@ -86,7 +75,10 @@
 
         <!-- 사이드바 하단 미니 도움말 -->
         <div class="sidebar-footer-card">
-          <div class="sidebar-card-badge">HELP</div>
+          <div class="sidebar-card-badge">
+            <i data-lucide="help-circle" class="help-mini-icon"></i>
+            <span>HELP</span>
+          </div>
           <p class="sidebar-card-text">찾는 문서가 없으신가요?</p>
           <a href="#supportSection" class="sidebar-card-link">운영 담당 문의 &rarr;</a>
         </div>
@@ -109,17 +101,19 @@
       <!-- 검색 결과 없음 (Empty State) -->
       <section class="empty-state" id="emptyState" hidden>
         <div class="empty-icon-wrapper">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
+          <i data-lucide="search-x"></i>
         </div>
         <h3 class="empty-title">일치하는 항목을 찾을 수 없습니다</h3>
         <p class="empty-desc" id="emptyKeywordText">검색어의 철자를 확인하거나 다른 키워드로 검색해 보세요.</p>
         <div class="empty-actions">
-          <button type="button" class="btn btn-primary" id="emptyResetBtn">검색어 초기화</button>
-          <a href="#supportSection" class="btn btn-secondary">운영 담당자에게 문의하기</a>
+          <button type="button" class="btn btn-primary" id="emptyResetBtn">
+            <i data-lucide="rotate-ccw" class="btn-icon"></i>
+            <span>검색어 초기화</span>
+          </button>
+          <a href="#supportSection" class="btn btn-secondary">
+            <i data-lucide="message-square" class="btn-icon"></i>
+            <span>운영 담당자에게 문의하기</span>
+          </a>
         </div>
       </section>
     </main>
@@ -130,11 +124,7 @@
     <div class="container footer-container">
       <div class="support-card">
         <div class="support-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <path d="M12 17h.01"></path>
-          </svg>
+          <i data-lucide="life-buoy"></i>
         </div>
         <div class="support-content">
           <h2 class="support-title">원하는 문서나 도구를 찾지 못하셨나요?</h2>
