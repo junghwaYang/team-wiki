@@ -53,8 +53,13 @@
   const globalUpdatedAt = document.getElementById('globalUpdatedAt');
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const sidebar = document.getElementById('sidebar');
   const sidebarNav = document.getElementById('sidebarNav');
   const totalCategoryCount = document.getElementById('totalCategoryCount');
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+  const mobileBackdrop = document.getElementById('mobileBackdrop');
+  const sidebarHelpLink = document.getElementById('sidebarHelpLink');
   const wikiSection = document.getElementById('wikiSection');
   const searchStats = document.getElementById('searchStats');
   const statsText = document.getElementById('statsText');
@@ -71,6 +76,22 @@
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
       window.lucide.createIcons();
     }
+  }
+
+  // Open Mobile Drawer
+  function openDrawer() {
+    if (sidebar) sidebar.classList.add('open');
+    if (mobileBackdrop) mobileBackdrop.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  // Close Mobile Drawer
+  function closeDrawer() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (mobileBackdrop) mobileBackdrop.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
   }
 
   // Initialize
@@ -318,6 +339,20 @@
 
   // Setup Event Listeners
   function setupEventListeners() {
+    // Mobile menu drawer open/close
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', openDrawer);
+    }
+    if (closeSidebarBtn) {
+      closeSidebarBtn.addEventListener('click', closeDrawer);
+    }
+    if (mobileBackdrop) {
+      mobileBackdrop.addEventListener('click', closeDrawer);
+    }
+    if (sidebarHelpLink) {
+      sidebarHelpLink.addEventListener('click', closeDrawer);
+    }
+
     // Search input handler
     searchInput.addEventListener('input', (e) => {
       currentSearchQuery = e.target.value;
@@ -338,7 +373,10 @@
       if (!btn) return;
 
       const cat = btn.dataset.category;
-      if (selectedCategory === cat) return;
+      if (selectedCategory === cat) {
+        closeDrawer();
+        return;
+      }
 
       selectedCategory = cat;
 
@@ -351,6 +389,7 @@
       btn.setAttribute('aria-current', 'page');
 
       renderContent();
+      closeDrawer();
 
       // In mobile view, scroll to main content smoothly
       if (window.innerWidth <= 960) {
@@ -384,8 +423,12 @@
         searchInput.select();
       }
 
-      // Escape to clear search and blur
+      // Escape to close drawer or clear search
       if (e.key === 'Escape') {
+        if (sidebar && sidebar.classList.contains('open')) {
+          closeDrawer();
+          return;
+        }
         if (searchInput.value || currentSearchQuery) {
           searchInput.value = '';
           currentSearchQuery = '';

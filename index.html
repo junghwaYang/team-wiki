@@ -27,14 +27,21 @@
   <!-- 메인 상단 헤더 -->
   <header class="header">
     <div class="container header-container">
-      <div class="brand-area">
-        <div class="logo-mark">
-          <i data-lucide="book-open-check"></i>
+      <div class="header-top-row">
+        <div class="brand-area">
+          <div class="logo-mark">
+            <i data-lucide="book-open-check"></i>
+          </div>
+          <div class="brand-text">
+            <h1 class="service-title">팀 사내 위키</h1>
+            <p class="service-subtitle">자주 사용하는 업무 도구와 문서를 빠르게 찾아보세요.</p>
+          </div>
         </div>
-        <div class="brand-text">
-          <h1 class="service-title">팀 사내 위키</h1>
-          <p class="service-subtitle">자주 사용하는 업무 도구와 문서를 빠르게 찾아보세요.</p>
-        </div>
+
+        <!-- 모바일 햄버거 메뉴 토글 버튼 -->
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="카테고리 메뉴 열기" aria-expanded="false" aria-controls="sidebar">
+          <i data-lucide="menu"></i>
+        </button>
       </div>
 
       <!-- 상단 글로벌 검색 바 -->
@@ -56,9 +63,12 @@
     </div>
   </header>
 
+  <!-- 모바일 드로어 백드롭 오버레이 -->
+  <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
+
   <!-- 2열 사이드바 + 메인 레이아웃 -->
   <div class="container app-layout">
-    <!-- 좌측 카테고리 사이드바 -->
+    <!-- 카테고리 사이드바 (데스크톱: 좌측 고정 / 모바일: 슬라이드 드로어) -->
     <aside class="sidebar" id="sidebar" aria-label="카테고리 네비게이션">
       <div class="sidebar-sticky">
         <div class="sidebar-header">
@@ -66,7 +76,12 @@
             <i data-lucide="layout-grid" class="header-icon"></i>
             <span>카테고리</span>
           </div>
-          <span class="sidebar-category-count" id="totalCategoryCount">0</span>
+          <div class="sidebar-header-actions">
+            <span class="sidebar-category-count" id="totalCategoryCount">0</span>
+            <button type="button" class="close-sidebar-btn" id="closeSidebarBtn" aria-label="카테고리 메뉴 닫기">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
         </div>
 
         <nav class="sidebar-nav" id="sidebarNav">
@@ -80,7 +95,7 @@
             <span>HELP</span>
           </div>
           <p class="sidebar-card-text">찾는 문서가 없으신가요?</p>
-          <a href="#supportSection" class="sidebar-card-link">운영 담당 문의 &rarr;</a>
+          <a href="#supportSection" class="sidebar-card-link" id="sidebarHelpLink">운영 담당 문의 &rarr;</a>
         </div>
       </div>
     </aside>
