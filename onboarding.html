@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신규 입사자 온보딩 체크리스트 | Team Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body class="onboarding-page">
+  <!-- 온보딩 상단 헤더 영역 -->
+  <header class="onboarding-header-wrapper">
+    <div class="container">
+      <nav class="onboarding-top-nav" aria-label="상단 네비게이션">
+        <a href="index.html" class="back-to-wiki-btn" aria-label="메인 위키 홈으로 이동">
+          <i data-lucide="arrow-left"></i>
+          <span>메인 위키 홈으로</span>
+        </a>
+        <div class="onboarding-badge">
+          <i data-lucide="sparkles"></i>
+          <span>NEW ONBOARDING GUIDE</span>
+        </div>
+      </nav>
+
+      <div class="onboarding-title-area">
+        <h1 class="onboarding-main-title">
+          <span id="deptDisplayName" class="highlight">개발팀</span> 신규 입사자 온보딩 체크리스트
+        </h1>
+        <p class="onboarding-subtitle" id="onboardingSubtitle">
+          환영합니다! 팀에 빠르게 적응할 수 있도록 꼭 확인해야 할 필수 사내 문서와 도구를 모았습니다.
+        </p>
+      </div>
+
+      <!-- 부서 선택 탭 -->
+      <div class="dept-selector-container">
+        <div class="dept-tabs" id="deptTabs" role="tablist" aria-label="부서 선택">
+          <!-- JS로 동적 생성 또는 기본 탭 렌더링 -->
+          <button type="button" class="dept-tab-btn active" data-dept="engineering" role="tab" aria-selected="true">
+            <i data-lucide="code-2" class="tab-icon"></i>
+            <span>개발팀</span>
+          </button>
+          <button type="button" class="dept-tab-btn" data-dept="design" role="tab" aria-selected="false">
+            <i data-lucide="palette" class="tab-icon"></i>
+            <span>디자인팀</span>
+          </button>
+          <button type="button" class="dept-tab-btn" data-dept="planning" role="tab" aria-selected="false">
+            <i data-lucide="file-text" class="tab-icon"></i>
+            <span>기획팀</span>
+          </button>
+          <button type="button" class="dept-tab-btn" data-dept="operations" role="tab" aria-selected="false">
+            <i data-lucide="headset" class="tab-icon"></i>
+            <span>운영/CX팀</span>
+          </button>
+          <button type="button" class="dept-tab-btn" data-dept="all" role="tab" aria-selected="false">
+            <i data-lucide="layers" class="tab-icon"></i>
+            <span>전체 보기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 온보딩 컨텐츠 영역 -->
+  <main class="container" style="flex: 1;">
+    <!-- 온보딩 진행률 카드 -->
+    <section class="onboarding-progress-card" aria-label="온보딩 달성 진행률">
+      <div class="progress-header">
+        <div class="progress-label-group">
+          <i data-lucide="check-circle-2" style="color: var(--accent-primary); width: 1.25rem; height: 1.25rem;"></i>
+          <h2 class="progress-title">온보딩 진행 현황</h2>
+          <span class="progress-counter" id="progressCounter">0 / 0 완료 (0%)</span>
+        </div>
+        <button type="button" class="reset-progress-btn" id="resetProgressBtn" title="현재 부서의 체크 상태를 초기화합니다">
+          <i data-lucide="rotate-ccw" style="width: 0.875rem; height: 0.875rem;"></i>
+          <span>체크 초기화</span>
+        </button>
+      </div>
+
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+
+      <p class="progress-cheer-message" id="progressMessage">
+        <i data-lucide="info" style="width: 1rem; height: 1rem;"></i>
+        <span>각 카테고리를 클릭하여 세부 문서를 확인하고 체크해 보세요.</span>
+      </p>
+    </section>
+
+    <!-- 카테고리 단위 아코디언 체크리스트 컨테이너 -->
+    <section class="checklist-container" id="checklistContainer" aria-label="온보딩 체크리스트 목록">
+      <!-- JS로 동적 렌더링 -->
+      <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+        데이터를 불러오는 중입니다...
+      </div>
+    </section>
+
+    <!-- 하단 서포트 배너 -->
+    <div class="onboarding-footer-banner">
+      <div class="footer-banner-text">
+        <h4>추가로 궁금한 점이나 접근 권한 문제가 있으신가요?</h4>
+        <p>계정 권한 부여 및 사내 도구 사용법은 운영 담당자에게 언제든 문의하세요.</p>
+      </div>
+      <a href="index.html#supportSection" class="footer-banner-btn">
+        <i data-lucide="message-circle"></i>
+        <span>운영 담당 문의하기</span>
+      </a>
+    </div>
+  </main>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

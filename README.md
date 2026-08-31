@@ -34,6 +34,12 @@
    - 일치하는 검색 결과가 없을 시 검색어 초기화 및 담당자 문의 액션 안내
    - 상단 공지 배너 및 하단 서포트 문의 위젯 탑재
 
+5. **신규 입사자 부서별 온보딩 체크리스트 (`onboarding.html`)**
+   - 부서별 맞춤 링크 접속 (`?dept=engineering`, `design`, `planning`, `operations`, `all`)
+   - 카테고리 단위 아코디언 및 "'ㅇㅇㅇ' 관련 문서는 여기서 확인하세요" 친절한 안내 문구
+   - 세부 문서별 개별 체크박스 + 카테고리 일괄 체크 지원
+   - 실시간 온보딩 달성률 프로그레스 바 & `localStorage` 기반 상태 자동 저장
+
 ---
 
 ## 🛠 기술 스택
@@ -45,7 +51,7 @@
 | **동적 로직 & 검색** | 바닐라 JavaScript (ES6+) |
 | **아이콘 시스템** | [Lucide Icons](https://lucide.dev/) (CDN) |
 | **타이포그래피** | Pretendard, Plus Jakarta Sans (Google Fonts) |
-| **데이터 스토리지** | `wiki-data.json` |
+| **데이터 스토리지** | `wiki-data.json`, `localStorage` (온보딩 진행 상태) |
 | **버전 관리 & 배포** | Git, GitHub, Vercel / GitHub Pages (정적 호스팅) |
 
 ---
@@ -56,9 +62,12 @@
 team-wiki/
 ├── docs/
 │   └── wiki-plan.md     # 사내 위키 프로젝트 기획서
-├── app.js               # 데이터 로드, 실시간 검색/필터링 및 렌더링 스크립트
-├── index.html           # 메인 웹페이지 시맨틱 마크업
-├── style.css            # 디자인 시스템, 사이드바 그리드 및 반응형 스타일
+├── app.js               # 메인 위키: 데이터 로드, 실시간 검색/필터링 및 렌더링 스크립트
+├── index.html           # 메인 위키 웹페이지
+├── onboarding.html      # 신규 입사자 전용 부서별 온보딩 체크리스트 웹페이지
+├── onboarding.js        # 온보딩 체크리스트 로직, 아코디언, 프로그레스 및 localStorage 연동
+├── onboarding.css       # 온보딩 페이지 전용 스타일시트
+├── style.css            # 공통 디자인 시스템, 사이드바 그리드 및 반응형 스타일
 ├── wiki-data.json       # 위키 카테고리 및 링크 데이터셋
 └── README.md            # 프로젝트 안내 문서
 ```
