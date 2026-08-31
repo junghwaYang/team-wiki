@@ -56,14 +56,17 @@
   // ponytail: 로그인/서버가 없는 정적 사이트라 실제 접근 제어가 아닌 클라이언트 소프트 락.
   // 개발자도구로 우회 가능하지만, 정적 페이지 구조 안에서는 이 이상의 강제가 불가능하다.
   const DEPT_CLAIM_KEY = 'team_wiki_onboarding_dept_v1';
+  const NAME_CLAIM_KEY = 'team_wiki_onboarding_name_v1';
 
   // State
   let wikiData = null;
   let currentDept = 'engineering';
+  let currentName = '';
   let checkedItems = {}; // { [itemId]: boolean }
 
   // DOM Elements
   const deptDisplayName = document.getElementById('deptDisplayName');
+  const welcomeName = document.getElementById('welcomeName');
   const progressCounter = document.getElementById('progressCounter');
   const progressBarFill = document.getElementById('progressBarFill');
   const progressMessage = document.getElementById('progressMessage');
@@ -123,6 +126,12 @@
     return 'engineering';
   }
 
+  function getNameFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+    return name ? name.trim() : '';
+  }
+
   // Update URL Query Parameter
   function updateDeptUrl(dept) {
     const url = new URL(window.location);
@@ -134,10 +143,16 @@
   async function init() {
     loadSavedChecks();
     currentDept = getDeptFromUrl();
+    const nameFromUrl = getNameFromUrl();
     try {
       localStorage.setItem(DEPT_CLAIM_KEY, currentDept);
+      if (nameFromUrl) {
+        localStorage.setItem(NAME_CLAIM_KEY, nameFromUrl);
+      }
+      currentName = nameFromUrl || localStorage.getItem(NAME_CLAIM_KEY) || '';
     } catch (e) {
-      console.warn('Could not save onboarding department claim:', e);
+      currentName = nameFromUrl;
+      console.warn('Could not save onboarding claims:', e);
     }
 
     try {
@@ -167,6 +182,10 @@
     const deptConfig = DEPARTMENTS[currentDept] || DEPARTMENTS.engineering;
     if (deptDisplayName) {
       deptDisplayName.textContent = deptConfig.name;
+    }
+    if (welcomeName && currentName) {
+      welcomeName.textContent = `${currentName}님, 환영합니다!`;
+      welcomeName.hidden = false;
     }
   }
 
