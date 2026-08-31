@@ -43,36 +43,19 @@
     }
   };
 
-  // Department Definitions & Category Mapping
+  // Department Definitions (표시용 이름/아이콘만 관리 — 문서 노출 여부는 wiki-data.json의
+  // item.onboardingDepartments 로 결정한다)
   const DEPARTMENTS = {
-    engineering: {
-      name: '개발팀',
-      icon: 'code-2',
-      categoryIds: ['people', 'expense-purchase', 'project-collaboration', 'engineering']
-    },
-    design: {
-      name: '디자인팀',
-      icon: 'palette',
-      categoryIds: ['people', 'expense-purchase', 'project-collaboration', 'design', 'brand-assets']
-    },
-    planning: {
-      name: '기획팀',
-      icon: 'file-text',
-      categoryIds: ['people', 'expense-purchase', 'project-collaboration', 'planning']
-    },
-    operations: {
-      name: '운영/CX팀',
-      icon: 'headset',
-      categoryIds: ['people', 'expense-purchase', 'project-collaboration', 'customer-operations']
-    },
-    all: {
-      name: '전체 부서',
-      icon: 'layers',
-      categoryIds: ['people', 'expense-purchase', 'planning', 'design', 'engineering', 'project-collaboration', 'brand-assets', 'customer-operations']
-    }
+    engineering: { name: '개발팀', icon: 'code-2' },
+    design: { name: '디자인팀', icon: 'palette' },
+    planning: { name: '기획팀', icon: 'file-text' },
+    operations: { name: '운영/CX팀', icon: 'headset' }
   };
 
   const STORAGE_KEY = 'team_wiki_onboarding_checks_v1';
+  // ponytail: 로그인/서버가 없는 정적 사이트라 실제 접근 제어가 아닌 클라이언트 소프트 락.
+  // 개발자도구로 우회 가능하지만, 정적 페이지 구조 안에서는 이 이상의 강제가 불가능하다.
+  const DEPT_CLAIM_KEY = 'team_wiki_onboarding_dept_v1';
 
   // State
   let wikiData = null;
@@ -81,12 +64,12 @@
 
   // DOM Elements
   const deptDisplayName = document.getElementById('deptDisplayName');
-  const deptTabs = document.getElementById('deptTabs');
   const progressCounter = document.getElementById('progressCounter');
   const progressBarFill = document.getElementById('progressBarFill');
   const progressMessage = document.getElementById('progressMessage');
   const resetProgressBtn = document.getElementById('resetProgressBtn');
   const checklistContainer = document.getElementById('checklistContainer');
+  const backToWikiBtn = document.querySelector('.back-to-wiki-btn');
 
   // Load Saved Checks from LocalStorage
   function loadSavedChecks() {
@@ -151,9 +134,14 @@
   async function init() {
     loadSavedChecks();
     currentDept = getDeptFromUrl();
+    try {
+      localStorage.setItem(DEPT_CLAIM_KEY, currentDept);
+    } catch (e) {
+      console.warn('Could not save onboarding department claim:', e);
+    }
 
     try {
-      const response = await fetch('./wiki-data.json');
+      const response = await fetch('./wiki-data.json', { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -174,28 +162,27 @@
     }
   }
 
-  // Update Active Tab in Header
+  // Update Department Name in Header
   function updateActiveTabUI() {
     const deptConfig = DEPARTMENTS[currentDept] || DEPARTMENTS.engineering;
     if (deptDisplayName) {
       deptDisplayName.textContent = deptConfig.name;
     }
-
-    const tabButtons = deptTabs.querySelectorAll('.dept-tab-btn');
-    tabButtons.forEach(btn => {
-      const isSelected = btn.dataset.dept === currentDept;
-      btn.classList.toggle('active', isSelected);
-      btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-    });
   }
 
-  // Get categories relevant to current department
+  // Get categories relevant to current department, with items filtered to
+  // only those whose onboardingDepartments includes currentDept.
   function getDepartmentCategories() {
     if (!wikiData || !wikiData.categories) return [];
-    const deptConfig = DEPARTMENTS[currentDept] || DEPARTMENTS.engineering;
-    const allowedCategoryIds = deptConfig.categoryIds;
 
-    return wikiData.categories.filter(cat => allowedCategoryIds.includes(cat.id));
+    return wikiData.categories
+      .map(cat => ({
+        ...cat,
+        items: (cat.items || []).filter(item =>
+          (item.onboardingDepartments || []).includes(currentDept)
+        )
+      }))
+      .filter(cat => cat.items.length > 0);
   }
 
   // Render Checklist
@@ -231,7 +218,7 @@
           <div class="category-row-header" role="button" aria-expanded="${isOpen ? 'true' : 'false'}" aria-controls="cat-body-${escapeHtml(category.id)}">
             <div class="category-header-left">
               <!-- Category Checkbox -->
-              <label class="custom-checkbox-wrapper" onclick="event.stopPropagation();" title="카테고리 전체 완료/해제">
+              <label class="custom-checkbox-wrapper" title="카테고리 전체 완료/해제">
                 <input 
                   type="checkbox" 
                   class="checkbox-input category-checkbox" 
@@ -311,6 +298,15 @@
     refreshIcons();
   }
 
+  // Whether every required item for the current department is checked
+  function isOnboardingComplete() {
+    const categories = getDepartmentCategories();
+    if (categories.length === 0) return false;
+    return categories.every(cat =>
+      (cat.items || []).every(item => !!checkedItems[item.id])
+    );
+  }
+
   // Update Progress Bar and Stats
   function updateProgress() {
     const categories = getDepartmentCategories();
@@ -358,27 +354,13 @@
 
   // Setup Event Listeners
   function setupEventListeners() {
-    // 1. Department Tabs click
-    deptTabs.addEventListener('click', (e) => {
-      const btn = e.target.closest('.dept-tab-btn');
-      if (!btn) return;
-
-      const dept = btn.dataset.dept;
-      if (dept === currentDept) return;
-
-      currentDept = dept;
-      updateDeptUrl(currentDept);
-      updateActiveTabUI();
-      renderChecklist();
-    });
-
-    // 2. Accordion Header Click & Checkbox Handling
+    // 1. Accordion Header Click & Checkbox Handling
     checklistContainer.addEventListener('click', (e) => {
       // If clicked on category checkbox
       if (e.target.classList.contains('category-checkbox')) {
         const catId = e.target.dataset.catId;
         const isChecked = e.target.checked;
-        const category = (wikiData.categories || []).find(c => c.id === catId);
+        const category = getDepartmentCategories().find(c => c.id === catId);
 
         if (category && category.items) {
           category.items.forEach(item => {
@@ -406,7 +388,7 @@
         }
 
         // Update category state
-        const category = (wikiData.categories || []).find(c => c.id === catId);
+        const category = getDepartmentCategories().find(c => c.id === catId);
         if (category && category.items) {
           const totalCatItems = category.items.length;
           const completedCatItems = category.items.filter(it => checkedItems[it.id]).length;
@@ -433,7 +415,8 @@
         return;
       }
 
-      // Accordion Toggle
+      // Accordion Toggle (ignore clicks originating from the checkbox itself)
+      if (e.target.closest('.custom-checkbox-wrapper')) return;
       const header = e.target.closest('.category-row-header');
       if (header) {
         const card = header.closest('.category-checklist-item');
@@ -464,6 +447,53 @@
         renderChecklist();
       });
     }
+
+    // 4. Block "메인 위키 홈으로" navigation until onboarding is complete
+    if (backToWikiBtn) {
+      backToWikiBtn.addEventListener('click', (e) => {
+        if (!isOnboardingComplete()) {
+          e.preventDefault();
+          showBlockedNavModal();
+        }
+      });
+    }
+  }
+
+  // Custom modal shown when navigating to the main wiki before onboarding is complete
+  function showBlockedNavModal() {
+    if (document.getElementById('onboardingBlockModal')) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'onboarding-modal-overlay';
+    overlay.id = 'onboardingBlockModal';
+    overlay.innerHTML = `
+      <div class="onboarding-modal-card" role="alertdialog" aria-modal="true" aria-labelledby="onboardingModalTitle">
+        <div class="onboarding-modal-icon-wrap">
+          <i data-lucide="lock"></i>
+        </div>
+        <h3 id="onboardingModalTitle" class="onboarding-modal-title">온보딩을 먼저 완료해주세요</h3>
+        <p class="onboarding-modal-desc">체크리스트를 모두 확인해야 메인 위키로 이동할 수 있습니다.</p>
+        <button type="button" class="onboarding-modal-confirm-btn">확인</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    refreshIcons();
+
+    function closeModal() {
+      overlay.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeydown);
+    }
+    function onKeydown(e) {
+      if (e.key === 'Escape') closeModal();
+    }
+
+    overlay.querySelector('.onboarding-modal-confirm-btn').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', onKeydown);
   }
 
   // Run on DOM ready

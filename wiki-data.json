@@ -17,7 +17,8 @@
           "description": "휴가를 신청할 때 사용하는 문서입니다.",
           "url": "https://example.com/leave",
           "contact": "인사 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         },
         {
           "id": "attendance-guide",
@@ -25,7 +26,8 @@
           "description": "출퇴근과 근무 기준을 확인할 때 사용하는 문서입니다.",
           "url": "https://example.com/attendance",
           "contact": "인사 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         }
       ]
     },
@@ -39,7 +41,8 @@
           "description": "업무 비용을 정산할 때 사용하는 문서입니다.",
           "url": "https://example.com/expense",
           "contact": "재무 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         },
         {
           "id": "purchase-request",
@@ -47,7 +50,8 @@
           "description": "비품과 서비스를 구매할 때 사용하는 문서입니다.",
           "url": "https://example.com/purchase",
           "contact": "운영 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         }
       ]
     },
@@ -61,7 +65,8 @@
           "description": "신규 기능이나 제품을 기획할 때 사용하는 표준 양식입니다.",
           "url": "https://example.com/prd-template",
           "contact": "기획 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["planning"]
         },
         {
           "id": "user-research",
@@ -69,7 +74,8 @@
           "description": "고객 인터뷰 및 사용성 테스트(UT) 결과를 모아둔 자료입니다.",
           "url": "https://example.com/user-research",
           "contact": "기획 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["planning"]
         }
       ]
     },
@@ -83,7 +89,8 @@
           "description": "사내 공통 UI 컴포넌트, 컬러 팔레트, 타이포그래피 라이브러리입니다.",
           "url": "https://example.com/figma-design-system",
           "contact": "디자인 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["design"]
         },
         {
           "id": "ux-guidelines",
@@ -91,7 +98,8 @@
           "description": "사용자 경험 일관성과 접근성 검수를 위한 가이드라인 문서입니다.",
           "url": "https://example.com/ux-guidelines",
           "contact": "디자인 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["design"]
         }
       ]
     },
@@ -105,7 +113,8 @@
           "description": "백엔드 API 엔드포인트 및 요청/응답 스키마를 확인하는 문서입니다.",
           "url": "https://example.com/api-docs",
           "contact": "개발 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["engineering"]
         },
         {
           "id": "dev-conventions",
@@ -113,7 +122,8 @@
           "description": "팀의 코드 스타일, Git 브랜치 전략 및 PR 리뷰 기준 문서입니다.",
           "url": "https://example.com/dev-conventions",
           "contact": "개발 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["engineering"]
         },
         {
           "id": "infra-guide",
@@ -121,7 +131,8 @@
           "description": "스테이징/프로덕션 배포 파이프라인과 AWS/Vercel 환경 설정 가이드입니다.",
           "url": "https://example.com/infra-guide",
           "contact": "개발 담당",
-          "updatedAt": "2026-08-29"
+          "updatedAt": "2026-08-29",
+          "onboardingDepartments": ["engineering"]
         }
       ]
     },
@@ -135,7 +146,8 @@
           "description": "진행 중인 업무 상태를 확인할 때 사용하는 페이지입니다.",
           "url": "https://example.com/projects",
           "contact": "프로젝트 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         },
         {
           "id": "meeting-notes",
@@ -143,7 +155,8 @@
           "description": "회의 내용을 같은 형식으로 기록할 때 사용하는 문서입니다.",
           "url": "https://example.com/meeting-notes",
           "contact": "운영 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["engineering", "design", "planning", "operations"]
         }
       ]
     },
@@ -157,7 +170,8 @@
           "description": "색상, 글꼴, 문서 표현 기준을 확인할 때 사용하는 문서입니다.",
           "url": "https://example.com/brand-guide",
           "contact": "디자인 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["design"]
         },
         {
           "id": "brand-files",
@@ -165,7 +179,8 @@
           "description": "공식 이미지 파일이 필요할 때 사용하는 자료입니다.",
           "url": "https://example.com/brand-assets",
           "contact": "디자인 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["design"]
         }
       ]
     },
@@ -179,7 +194,8 @@
           "description": "고객 문의에 답변할 때 기준을 확인하는 문서입니다.",
           "url": "https://example.com/customer-guide",
           "contact": "고객 지원 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["operations"]
         },
         {
           "id": "incident-checklist",
@@ -187,7 +203,8 @@
           "description": "서비스 문제가 발생했을 때 확인하는 문서입니다.",
           "url": "https://example.com/incident-checklist",
           "contact": "운영 담당",
-          "updatedAt": "2026-08-28"
+          "updatedAt": "2026-08-28",
+          "onboardingDepartments": ["operations"]
         }
       ]
     }

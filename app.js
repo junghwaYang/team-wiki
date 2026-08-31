@@ -94,14 +94,67 @@
     if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
   }
 
+  // ponytail: 로그인/서버가 없는 정적 사이트라 실제 접근 제어가 아닌 클라이언트 소프트 락.
+  // 개발자도구로 우회 가능하지만, 정적 페이지 구조 안에서는 이 이상의 강제가 불가능하다.
+  const ONBOARDING_DEPT_KEY = 'team_wiki_onboarding_dept_v1';
+  const ONBOARDING_CHECKS_KEY = 'team_wiki_onboarding_checks_v1';
+
+  // 온보딩을 시작한 브라우저가 아직 필수 문서를 다 체크하지 않았으면 위키 접근을 막는다.
+  // 온보딩을 시작한 적 없는 브라우저(기존 직원)는 그대로 통과.
+  function checkOnboardingGate(data) {
+    let dept;
+    try {
+      dept = localStorage.getItem(ONBOARDING_DEPT_KEY);
+    } catch (e) {
+      return false;
+    }
+    if (!dept) return false;
+
+    const requiredIds = [];
+    (data.categories || []).forEach(cat => {
+      (cat.items || []).forEach(item => {
+        if ((item.onboardingDepartments || []).includes(dept)) {
+          requiredIds.push(item.id);
+        }
+      });
+    });
+    if (requiredIds.length === 0) return false;
+
+    let checkedItems = {};
+    try {
+      checkedItems = JSON.parse(localStorage.getItem(ONBOARDING_CHECKS_KEY) || '{}');
+    } catch (e) {
+      checkedItems = {};
+    }
+
+    const isComplete = requiredIds.every(id => checkedItems[id]);
+    if (isComplete) return false;
+
+    document.body.innerHTML = `
+      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; font-family: var(--font-sans, sans-serif); background: var(--bg-page, #fff);">
+        <div style="max-width: 420px;">
+          <h1 style="font-size: 1.375rem; margin-bottom: 0.75rem;">온보딩을 먼저 완료해주세요</h1>
+          <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
+            메인 위키는 부서별 온보딩 체크리스트를 모두 확인한 뒤 열람할 수 있습니다.
+          </p>
+          <a href="onboarding.html?dept=${encodeURIComponent(dept)}" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--accent-primary, #e11d48); color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600;">
+            온보딩 체크리스트로 이동
+          </a>
+        </div>
+      </div>
+    `;
+    return true;
+  }
+
   // Initialize
   async function init() {
     try {
-      const response = await fetch('./wiki-data.json');
+      const response = await fetch('./wiki-data.json', { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       wikiData = await response.json();
+      if (checkOnboardingGate(wikiData)) return;
       renderNoticeAndMeta();
       renderSidebarNav();
       renderContent();
